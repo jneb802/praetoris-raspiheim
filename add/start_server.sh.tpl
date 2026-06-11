@@ -21,6 +21,7 @@ if [ -n "$MODIFIER_DEATHPENATLY" ]; then MODIFIER_DEATHPENATLY="-modifier deathp
 if [ -n "$MODIFIER_RESOURCES" ]; then MODIFIER_RESOURCES="-modifier resources $MODIFIER_RESOURCES"; fi
 if [ -n "$MODIFIER_RAIDS" ]; then MODIFIER_RAIDS="-modifier raids $MODIFIER_RAIDS"; fi
 if [ -n "$MODIFIER_PORTALS" ]; then MODIFIER_PORTALS="-modifier portals $MODIFIER_PORTALS"; fi
+if [ -n "$PRESET" ]; then PRESET="-preset $PRESET"; fi
 
 if [ "$NO_BUILD_COST" = "enabled" ]; then NO_BUILD_COST="-setkey nobuildcost"; else NO_BUILD_COST=""; fi
 if [ "$PLAYER_EVENTS" = "enabled" ]; then PLAYER_EVENTS="-setkey playerevents"; else PLAYER_EVENTS=""; fi
@@ -50,7 +51,7 @@ box64 ./valheim_server.x86_64 \
 -password "$SERVER_PASS" \
 -savedir "$SAVE_DIR" \
 -saveinterval "$SAVE_INTERVAL" \
--preset $PRESET \
+$PRESET \
 $MODIFIER_COMBAT \
 $MODIFIER_DEATHPENATLY \
 $MODIFIER_RESOURCES \
