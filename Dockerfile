@@ -3,7 +3,7 @@ FROM ubuntu:24.04
 #Install Prereqs
 RUN apt-get update -y \
 &&  apt-get upgrade -y \
-&&  apt-get install -y wget gpg tar libatomic1 libpulse0 libpulse-dev
+&&  apt-get install -y wget gpg tar unzip libatomic1 libpulse0 libpulse-dev
 # Install box64 from prebuilt repository
 RUN rm -f /etc/apt/sources.list.d/box64.list /etc/apt/sources.list.d/box64.sources \
 &&  mkdir -p /usr/share/keyrings \
@@ -30,7 +30,9 @@ ENV SERVER_NAME=Raspiheim \
     PUBLIC=disabled \
     UPDATE=enabled \
     SAVE_INTERVAL=1800 \
-    CROSSPLAY=enabled
+    CROSSPLAY=enabled \
+    BEPINEX=disabled \
+    BEPINEX_VERSION=5.4.2333
 
 EXPOSE 2456/udp 2457/udp
 

@@ -56,10 +56,36 @@ update_valheim() {
 	return 1
 }
 
+install_bepinex() {
+	if [ "${BEPINEX:-disabled}" != "enabled" ] && [ "${BEPINEX:-disabled}" != "1" ]; then
+		return 0
+	fi
+
+	if [ -f /valheim/BepInEx/core/BepInEx.Preloader.dll ] && [ -f /valheim/doorstop_libs/libdoorstop_x64.so ]; then
+		echo "BepInEx already installed."
+		return 0
+	fi
+
+	local version="${BEPINEX_VERSION:-5.4.2333}"
+	local url="https://thunderstore.io/package/download/denikson/BepInExPack_Valheim/${version}/"
+	local tmp_dir="/tmp/bepinexpack-valheim"
+
+	echo "Installing BepInExPack_Valheim ${version}..."
+	rm -rf "$tmp_dir"
+	mkdir -p "$tmp_dir"
+	wget -q -O "$tmp_dir/bepinex.zip" "$url"
+	unzip -q "$tmp_dir/bepinex.zip" -d "$tmp_dir/extracted"
+	cp -a "$tmp_dir/extracted/BepInExPack_Valheim/." /valheim/
+	chmod +x /valheim/start_server_bepinex.sh /valheim/start_game_bepinex.sh
+	rm -rf "$tmp_dir"
+}
+
 # Upgrade Valheim to latest Version
 if [ ! -f /valheim/start_server.sh ] || [ "$UPDATE" = enabled ] || [ "$UPDATE" = 1 ]; then
 	update_valheim
 fi;
+
+install_bepinex
 
 # Manage Persistency
 cp -f /scripts/start_server.sh.tpl	/valheim/start_server.sh
