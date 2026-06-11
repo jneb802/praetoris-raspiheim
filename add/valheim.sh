@@ -15,7 +15,7 @@ run_steamcmd() {
 	local steamcmd_dir
 	steamcmd_dir="$(dirname "$steamcmd_bin")"
 	export LD_LIBRARY_PATH="${steamcmd_dir}:${LD_LIBRARY_PATH:-}"
-	box64 "$steamcmd_bin" "$@"
+	timeout --foreground "${STEAMCMD_TIMEOUT:-600}" box64 "$steamcmd_bin" "$@"
 }
 
 update_valheim() {
@@ -32,6 +32,11 @@ update_valheim() {
 		if [ "$bootstrap_rc" -ne 0 ] && [ "$bootstrap_rc" -ne 42 ]; then
 			return "$bootstrap_rc"
 		fi
+	fi
+
+	if [ ! -x /steamcmd/linux64/steamcmd ]; then
+		echo "SteamCMD self-update did not install linux64/steamcmd" >&2
+		return 1
 	fi
 
 	for attempt in 1 2 3; do
